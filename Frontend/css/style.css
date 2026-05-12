@@ -174,9 +174,7 @@ h1 {
    5. Navbar
    ========================================================================== */
 .navbar {
-  background-color: var(--primary-color) !important;
-  background: rgba(26, 61, 43, 0.98) !important;
-  backdrop-filter: blur(10px);
+  background-color: #1a3d2b !important; /* Solid Dark Green */
   padding: 0.8rem 5%;
   display: flex;
   justify-content: space-between;
@@ -187,7 +185,7 @@ h1 {
   width: 100%;
   z-index: 1010;
   box-sizing: border-box;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .nav-links {
