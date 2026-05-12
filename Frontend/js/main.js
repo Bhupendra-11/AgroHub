@@ -322,9 +322,9 @@ function updateNavbar() {
     if (!navLinks) return;
 
     const langSwitcher = `
-        <div class="lang-switcher" style="display:inline-flex; gap:10px; margin-right:15px;">
-            <span onclick="setLanguage('en')" style="cursor:pointer; font-weight:${currentLang==='en'?'bold':'normal'}">EN</span>
-            <span onclick="setLanguage('hi')" style="cursor:pointer; font-weight:${currentLang==='hi'?'bold':'normal'}">हि</span>
+        <div class="lang-switcher" style="display:inline-flex; gap:15px; margin-right:20px; color: white; font-size: 0.9rem;">
+            <span onclick="setLanguage('en')" style="cursor:pointer; opacity:${currentLang==='en'?'1':'0.7'}; font-weight:${currentLang==='en'?'bold':'normal'}; transition: 0.3s;">EN</span>
+            <span onclick="setLanguage('hi')" style="cursor:pointer; opacity:${currentLang==='hi'?'1':'0.7'}; font-weight:${currentLang==='hi'?'bold':'normal'}; transition: 0.3s;">हि</span>
         </div>
     `;
 
