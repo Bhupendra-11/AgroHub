@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+    <title>Track Order - AgroHub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="../css/track-order.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">🌱 Agro<span>Hub</span></a>
+        <div class="nav-links" id="nav-links"></div>
+    </nav>
+
+    <div class="container mt-2">
+        <div class="card">
+            <h2>Order Tracking <span id="order-id-display" class="text-muted"></span></h2>
+            
+            <div class="timeline" id="tracking-timeline">
+                <div class="timeline-progress" id="timeline-progress" style="width: 0%"></div>
+                <!-- Populated by tracking.js -->
+            </div>
+
+            <div class="grid grid-2 mt-2">
+                <div>
+                    <h3>Delivery Location</h3>
+                    <div id="map"></div>
+                </div>
+                <div>
+                    <h3>Delivery Details</h3>
+                    <p><strong>Status:</strong> <span id="status-text">Loading...</span></p>
+                    <p><strong>Courier:</strong> <span id="courier-text">-</span></p>
+                    <p><strong>Tracking No:</strong> <span id="tracking-number-text">-</span></p>
+                    <p><strong>Est. Delivery:</strong> <span id="est-delivery-text">-</span></p>
+                    
+                    <div class="mt-2">
+                        <a href="customer.html" class="btn btn-primary">Back to Shop</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/tracking.js"></script>
+</body>
+</html>

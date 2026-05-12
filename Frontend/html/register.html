@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+<title>Register / रजिस्टर - AgroHub</title>
+<link rel="stylesheet" href="../css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+  <!-- ===== Splash Screen ===== -->
+  <div id="splash-screen">
+    <div class="splash-logo">🌱 Agro<span>Hub</span></div>
+    <div class="splash-loader"></div>
+  </div>
+<div class="page-wrap">
+  <div class="card">
+    <!-- Brand -->
+    <div class="brand">
+      <div class="logo">🌱</div>
+      <h1>Agro<span>Hub</span></h1>
+      <p id="brand-sub" data-t="brand_sub">Fresh from farm to your door 🚀</p>
+    </div>
+
+    <!-- Role Selector -->
+    <div class="role-selector">
+      <button type="button" class="role-opt active" id="opt-farmer" onclick="setRole('farmer')">
+        <span class="emoji">👨‍🌾</span>
+        <span class="label" id="r-farmer-label" data-t="farmer">Farmer</span>
+      </button>
+      <button type="button" class="role-opt" id="opt-customer" onclick="setRole('customer')">
+        <span class="emoji">🛒</span>
+        <span class="label" id="r-customer-label" data-t="customer">Customer</span>
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form id="reg-form">
+      <input type="hidden" id="role-val" value="farmer">
+
+      <!-- Basic Info -->
+      <div class="form-group">
+        <label id="lbl-name" data-t="full_name">👤 Full Name</label>
+        <input type="text" id="name" required placeholder="जैसे: Ramesh Kumar" data-t="full_name">
+      </div>
+
+      <div class="form-group">
+        <label id="lbl-phone" data-t="phone">📱 Mobile Number</label>
+        <input type="tel" id="phone" placeholder="9876543210" maxlength="10" data-t="phone">
+      </div>
+
+      <div class="form-group">
+        <label id="lbl-email" data-t="email">✉️ Email</label>
+        <input type="email" id="email" required placeholder="you@example.com" data-t="email">
+      </div>
+
+      <div class="form-group">
+        <label id="lbl-pass" data-t="password">🔐 Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="password" required placeholder="••••••" data-t="password">
+          <button type="button" class="show-pass" onclick="togglePass()">👁️</button>
+        </div>
+      </div>
+
+      <!-- FARMER Section - Location Fields -->
+      <div class="role-section visible" id="sec-farmer">
+        <div class="section-label" id="lbl-farmer-section" data-t="farmer">🌾 Farmer Address</div>
+        <div class="address-group">
+          <div class="form-group address-field">
+            <span class="emoji">🌍</span>
+            <label id="lbl-country-f" data-t="country">Country</label>
+            <input type="text" id="country_f" value="India" readonly>
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">🗺️</span>
+            <label id="lbl-state-f" data-t="state">State</label>
+            <input type="text" id="state_f" placeholder="Haryana" data-t="state">
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">🏛️</span>
+            <label id="lbl-district-f" data-t="district">District</label>
+            <input type="text" id="district_f" placeholder="Karnal" data-t="district">
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">🏘️</span>
+            <label id="lbl-area-f" data-t="village">Village/Area</label>
+            <input type="text" id="area_f" placeholder="Rampur" data-t="village">
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">📮</span>
+            <label id="lbl-pin-f" data-t="pin_code">PIN Code</label>
+            <input type="text" id="pin_f" placeholder="110001" maxlength="6" data-t="pin_code">
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOMER Section - Location Fields -->
+      <div class="role-section" id="sec-customer">
+        <div class="section-label" id="lbl-customer-section" data-t="customer">🏠 Delivery Address</div>
+        <div class="address-group">
+          <div class="form-group address-field">
+            <span class="emoji">🌍</span>
+            <label id="lbl-country-c" data-t="country">Country</label>
+            <input type="text" id="country_c" value="India" readonly>
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">🗺️</span>
+            <label id="lbl-state-c" data-t="state">State</label>
+            <input type="text" id="state_c" placeholder="Haryana" data-t="state">
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">🏛️</span>
+            <label id="lbl-district-c" data-t="district">District</label>
+            <input type="text" id="district_c" placeholder="Karnal" data-t="district">
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">🏘️</span>
+            <label id="lbl-area-c" data-t="village">Area/Street</label>
+            <input type="text" id="area_c" placeholder="Sector 15" data-t="village">
+          </div>
+          <div class="form-group address-field">
+            <span class="emoji">📮</span>
+            <label id="lbl-pin-c" data-t="pin_code">PIN Code</label>
+            <input type="text" id="pin_c" placeholder="110001" maxlength="6" data-t="pin_code">
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        🚀 <span id="btn-text" data-t="register_btn">Register</span>
+      </button>
+    </form>
+
+    <div class="footer-link">
+      <span id="login-prompt" data-t="already_have_account">Already have an account?</span>
+      <a href="login.html" id="login-link" data-t="login"> Login here</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script src="../js/register.js"></script>
+</body>
+</html>

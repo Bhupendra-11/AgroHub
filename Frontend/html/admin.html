@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+    <title>Admin Panel - AgroHub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-logo">🛡️ Agro<span>Admin</span></div>
+    <ul class="admin-nav">
+        <li class="active" data-section="overview"><i class="fas fa-chart-pie"></i> <span data-t="overview">Overview</span></li>
+        <li data-section="users"><i class="fas fa-users"></i> <span data-t="user_management">User Management</span></li>
+        <li data-section="orders"><i class="fas fa-shopping-cart"></i> <span data-t="all_orders">All Orders</span></li>
+        <li data-section="products"><i class="fas fa-seedling"></i> <span data-t="product_audit">Product Audit</span></li>
+        <li data-section="settings"><i class="fas fa-cog"></i> <span data-t="platform_settings">Platform Settings</span></li>
+    </ul>
+    <div class="sidebar-footer">
+        <button onclick="logout()" class="logout-btn"><i class="fas fa-power-off"></i> Logout</button>
+    </div>
+</div>
+
+<div class="admin-content">
+    <header class="admin-header">
+        <div class="header-left">
+            <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+            <h2 id="section-title">Overview</h2>
+        </div>
+        <div class="header-right">
+            <div class="admin-profile">
+                <span>Super Admin</span>
+                <i class="fas fa-user-shield"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <!-- OVERVIEW SECTION -->
+        <section id="section-overview" class="admin-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon users"><i class="fas fa-users"></i></div>
+                    <div class="stat-data">
+                        <p data-t="total_users">Total Users</p>
+                        <h3 id="stat-total-users">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon farmers"><i class="fas fa-tractor"></i></div>
+                    <div class="stat-data">
+                        <p>Active Farmers</p>
+                        <h3 id="stat-total-farmers">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orders"><i class="fas fa-box-open"></i></div>
+                    <div class="stat-data">
+                        <p>Total Orders</p>
+                        <h3 id="stat-total-orders">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue"><i class="fas fa-indian-rupee-sign"></i></div>
+                    <div class="stat-data">
+                        <p>Total Revenue</p>
+                        <h3 id="stat-total-revenue">₹0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container mt-2">
+                <h3>Platform Growth</h3>
+                <canvas id="growthChart" height="100"></canvas>
+            </div>
+        </section>
+
+        <!-- USERS SECTION -->
+        <section id="section-users" class="admin-section">
+            <div class="table-card">
+                <div class="card-header">
+                    <h3>User Management</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search users..." id="user-search">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORDERS SECTION -->
+        <section id="section-orders" class="admin-section">
+            <div class="table-card">
+                <div class="card-header"><h3>Recent Orders</h3></div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

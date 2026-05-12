@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+    <title>Farmer Dashboard - AgroHub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/farmer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="farmer-body">
+    <!-- ===== Splash Screen ===== -->
+    <div id="splash-screen">
+        <div class="splash-logo">🌱 Agro<span>Hub</span></div>
+        <div class="splash-loader"></div>
+    </div>
+
+<!-- SIDEBAR -->
+<div class="fd-sidebar" id="fd-sidebar">
+    <div class="fd-sidebar-logo">🌱 Agro<span>Hub</span></div>
+    <div class="fd-farmer-info">
+        <div class="fd-avatar"><i class="fas fa-user-circle"></i></div>
+        <div>
+            <div class="fd-farmer-name" id="sidebar-farmer-name">Farmer</div>
+            <div class="fd-farmer-role">Farmer</div>
+        </div>
+    </div>
+    <ul class="fd-menu">
+        <li><a href="#" class="fd-menu-link active" data-section="home" data-t="home"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#" class="fd-menu-link" data-section="products" data-t="products"><i class="fas fa-seedling"></i> Product Management</a></li>
+        <li><a href="#" class="fd-menu-link" data-section="orders" data-t="orders"><i class="fas fa-box"></i> Order Management</a></li>
+        <li><a href="#" class="fd-menu-link" data-section="payments" data-t="payments"><i class="fas fa-money-bill-wave"></i> Payment Section</a></li>
+        <li><a href="#" class="fd-menu-link" data-section="delivery" data-t="delivery"><i class="fas fa-truck"></i> Delivery Feature</a></li>
+        <li><a href="#" class="fd-menu-link" data-section="smart" data-t="smart_features"><i class="fas fa-robot"></i> Smart Features</a></li>
+        <li><a href="#" class="fd-menu-link" data-section="profile" data-t="profile"><i class="fas fa-user"></i> Profile Section</a></li>
+    </ul>
+    <div class="fd-sidebar-footer">
+        <a href="#" onclick="logout(); return false;" class="fd-logout-btn"><i class="fas fa-sign-out-alt"></i> <span data-t="logout">Logout</span></a>
+    </div>
+</div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="fd-overlay" id="fd-overlay"></div>
+
+<!-- MAIN CONTENT -->
+<div class="fd-main" id="fd-main">
+
+    <!-- TOPBAR -->
+    <div class="fd-topbar">
+        <div class="fd-topbar-left">
+            <button class="fd-hamburger" id="fd-hamburger"><i class="fas fa-bars"></i></button>
+            <h1 class="fd-page-title" id="fd-page-title" data-t="dashboard">🏠 Dashboard</h1>
+        </div>
+        <div class="fd-topbar-right">
+            <div class="fd-notif-btn" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="fd-notif-badge" id="notif-count">3</span>
+            </div>
+            <div class="fd-topbar-profile">
+                <i class="fas fa-user-circle"></i>
+                <span id="topbar-farmer-name" data-t="farmer">Farmer</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS PANEL -->
+    <div class="fd-notif-panel" id="notif-panel" style="display:none;">
+        <div class="fd-notif-header"><strong>🔔 Notifications</strong> <button onclick="toggleNotifications()" class="fd-notif-close">×</button></div>
+        <div class="fd-notif-item"><span class="fd-notif-dot success"></span> New order received from Rahul Sharma</div>
+        <div class="fd-notif-item"><span class="fd-notif-dot warning"></span> Tomato stock running low (5kg left)</div>
+        <div class="fd-notif-item"><span class="fd-notif-dot info"></span> Payment of ₹850 received</div>
+    </div>
+
+    <!-- ===== HOME SECTION ===== -->
+    <div class="fd-section active" id="section-home">
+        <div class="fd-stats-grid">
+            <div class="fd-stat-card green">
+                <div class="fd-stat-icon"><i class="fas fa-box"></i></div>
+                <div class="fd-stat-info"><p data-t="total_orders">Total Orders</p><h2 id="stat-total-orders">--</h2></div>
+            </div>
+            <div class="fd-stat-card blue">
+                <div class="fd-stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="fd-stat-info"><p data-t="total_earnings">Total Earnings</p><h2 id="stat-earnings">--</h2></div>
+            </div>
+            <div class="fd-stat-card orange">
+                <div class="fd-stat-icon"><i class="fas fa-truck"></i></div>
+                <div class="fd-stat-info"><p data-t="pending_deliveries">Pending Deliveries</p><h2 id="stat-pending">--</h2></div>
+            </div>
+            <div class="fd-stat-card purple">
+                <div class="fd-stat-icon"><i class="fas fa-seedling"></i></div>
+                <div class="fd-stat-info"><p data-t="available_products">Available Products</p><h2 id="stat-products">--</h2></div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="fd-charts-grid">
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>📈 Monthly Sales</h3></div>
+                <canvas id="salesChart" height="120"></canvas>
+            </div>
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>🥧 Sales by Category</h3></div>
+                <canvas id="categoryChart" height="120"></canvas>
+            </div>
+        </div>
+
+        <!-- Stock Alerts -->
+        <div class="fd-card mt-2">
+            <div class="fd-card-header"><h3>🚨 Inventory Stock Alerts</h3></div>
+            <div id="stock-alerts">
+                <div class="fd-alert-item warning"><i class="fas fa-exclamation-triangle"></i> Tomato stock low: 5kg remaining</div>
+                <div class="fd-alert-item danger"><i class="fas fa-times-circle"></i> Milk out of stock!</div>
+                <div class="fd-alert-item success"><i class="fas fa-check-circle"></i> Potato: 80kg in stock</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PRODUCTS SECTION ===== -->
+    <div class="fd-section" id="section-products">
+        <div class="fd-card">
+            <div class="fd-card-header">
+                <h3>🌾 Product Management</h3>
+                <div class="fd-header-actions">
+                    <button class="fd-btn fd-btn-voice" onclick="startVoiceUpload()" title="Voice Upload"><i class="fas fa-microphone"></i> Voice Upload</button>
+                    <button class="fd-btn fd-btn-primary" onclick="openAddProductModal()">+ Add Product</button>
+                </div>
+            </div>
+            <table class="fd-table">
+                <thead>
+                    <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Rating</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="farmer-products-table">
+                    <tr><td colspan="7" class="text-center">Loading products...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ===== ORDERS SECTION ===== -->
+    <div class="fd-section" id="section-orders">
+        <div class="fd-order-tabs">
+            <button class="fd-tab active" onclick="switchOrderTab('new', this)">🆕 New Orders</button>
+            <button class="fd-tab" onclick="switchOrderTab('all', this)">📋 All Orders</button>
+            <button class="fd-tab" onclick="switchOrderTab('history', this)">📜 History</button>
+        </div>
+        <div class="fd-card">
+            <div class="fd-card-header"><h3>📦 Order Management</h3></div>
+            <table class="fd-table">
+                <thead>
+                    <tr><th>Order ID</th><th>Customer</th><th>Products</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="farmer-orders-table">
+                    <tr><td colspan="6" class="text-center">Loading orders...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ===== PAYMENTS SECTION ===== -->
+    <div class="fd-section" id="section-payments">
+        <div class="fd-stats-grid">
+            <div class="fd-stat-card green">
+                <div class="fd-stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                <div class="fd-stat-info"><p>Total Revenue</p><h2 id="pay-total">₹75,000</h2></div>
+            </div>
+            <div class="fd-stat-card orange">
+                <div class="fd-stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="fd-stat-info"><p>Pending Payments</p><h2 id="pay-pending">₹8,000</h2></div>
+            </div>
+            <div class="fd-stat-card blue">
+                <div class="fd-stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="fd-stat-info"><p>Received This Month</p><h2 id="pay-month">₹22,000</h2></div>
+            </div>
+        </div>
+
+        <div class="fd-grid-2">
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>🏦 Bank / UPI Details</h3></div>
+                <div class="fd-payment-detail"><label>UPI ID</label><div class="fd-input-row"><input type="text" id="pay-upi" class="fd-input" value="farmer@upi"><button class="fd-btn fd-btn-sm" onclick="savePaymentDetails()">Save</button></div></div>
+                <div class="fd-payment-detail"><label>Bank Account</label><input type="text" id="pay-bank" class="fd-input" value="XXXXXX4589"></div>
+                <div class="fd-payment-detail"><label>IFSC Code</label><input type="text" id="pay-ifsc" class="fd-input" value="SBIN0001234"></div>
+                <button class="fd-btn fd-btn-primary mt-1" onclick="downloadInvoice()"><i class="fas fa-download"></i> Download Invoice</button>
+            </div>
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>📋 Payment History</h3></div>
+                <div class="cd-table-wrap">
+                    <table class="fd-table">
+                        <thead><tr><th>Order#</th><th>Date</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
+                        <tbody id="payment-history-table">
+                            <tr><td>#1021</td><td>07 May 2026</td><td>₹850</td><td><span class="fd-badge success">paid</span></td><td>delivered</td></tr>
+                            <tr><td>#1022</td><td>05 May 2026</td><td>₹450</td><td><span class="fd-badge success">paid</span></td><td>delivered</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DELIVERY SECTION ===== -->
+    <div class="fd-section" id="section-delivery">
+        <div class="fd-card">
+            <div class="fd-card-header"><h3>🚚 Delivery Management</h3></div>
+            <table class="fd-table">
+                <thead>
+                    <tr><th>Order ID</th><th>Customer</th><th>Address</th><th>Status</th><th>Est. Time</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="farmer-delivery-list">
+                    <tr><td colspan="6" class="text-center">Loading deliveries...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="fd-card mt-2">
+            <div class="fd-card-header"><h3>📍 Live Delivery Tracker</h3></div>
+            <div class="fd-tracker">
+                <div class="fd-tracker-step done"><i class="fas fa-check-circle"></i> Order Placed</div>
+                <div class="fd-tracker-line done"></div>
+                <div class="fd-tracker-step done"><i class="fas fa-check-circle"></i> Accepted</div>
+                <div class="fd-tracker-line done"></div>
+                <div class="fd-tracker-step active"><i class="fas fa-truck"></i> In Transit</div>
+                <div class="fd-tracker-line"></div>
+                <div class="fd-tracker-step"><i class="fas fa-home"></i> Delivered</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SMART FEATURES SECTION ===== -->
+    <div class="fd-section" id="section-smart">
+        <div class="fd-grid-2">
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>🤖 AI Price Suggestion</h3></div>
+                <div class="fd-form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="ai-product-name" class="fd-input" placeholder="e.g. Tomato">
+                </div>
+                <div class="fd-form-group">
+                    <label>Category</label>
+                    <select id="ai-product-cat" class="fd-input">
+                        <option>Vegetables</option><option>Fruits</option><option>Grains</option><option>Dairy</option>
+                    </select>
+                </div>
+                <button class="fd-btn fd-btn-primary" onclick="getAIPriceSuggestion()"><i class="fas fa-magic"></i> Get AI Price</button>
+                <div id="ai-price-result" class="fd-ai-result" style="display:none;"></div>
+            </div>
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>📊 Demand Prediction</h3></div>
+                <div id="demand-list">
+                    <div class="fd-notification"><i class="fas fa-arrow-up" style="color:#2e7d32"></i> <strong>Tomato</strong> demand high this week (+40%)</div>
+                    <div class="fd-notification"><i class="fas fa-arrow-down" style="color:#c62828"></i> <strong>Onion</strong> demand dropping (-15%)</div>
+                    <div class="fd-notification"><i class="fas fa-equals" style="color:#f57c00"></i> <strong>Potato</strong> stable demand</div>
+                </div>
+                <button class="fd-btn fd-btn-primary mt-1" onclick="loadDemandPrediction()"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+        </div>
+        <div class="fd-grid-2 mt-2">
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>🌤️ Weather Updates</h3></div>
+                <div id="weather-card">
+                    <div class="fd-weather-box">
+                        <div class="fd-weather-main"><i class="fas fa-cloud-sun"></i><span id="weather-temp">28°C</span></div>
+                        <p id="weather-desc">Partly Cloudy – Bhopal, MP</p>
+                        <div class="fd-weather-detail">
+                            <span><i class="fas fa-tint"></i> Humidity: <strong>65%</strong></span>
+                            <span><i class="fas fa-wind"></i> Wind: <strong>12 km/h</strong></span>
+                        </div>
+                        <div class="fd-notification mt-1">🌧️ Rain expected tomorrow – plan harvesting today</div>
+                    </div>
+                </div>
+                <div id="crop-tips"></div>
+            </div>
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>🌾 Crop Recommendations</h3></div>
+                <div id="crop-rec-list">
+                    <div class="fd-notification"><i class="fas fa-leaf"></i> Best crop for next season: <strong>Wheat</strong></div>
+                    <div class="fd-notification"><i class="fas fa-leaf"></i> High profitability: <strong>Tomato</strong> (₹50-60/kg predicted)</div>
+                    <div class="fd-notification"><i class="fas fa-leaf"></i> Avoid: <strong>Sugarcane</strong> (overproduction risk)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Upload -->
+        <div class="fd-card mt-2">
+            <div class="fd-card-header"><h3>🎤 Voice-Based Product Upload</h3></div>
+            <p class="text-muted mb-1">Click the mic and say: "Add 50kg Tomato at 40 rupees per kg"</p>
+            <div class="fd-voice-area">
+                <button class="fd-voice-btn" id="voice-btn" onclick="startVoiceUpload()"><i class="fas fa-microphone"></i></button>
+                <div class="fd-voice-status" id="voice-status">Click mic to start</div>
+            </div>
+            <div id="voice-result" class="fd-ai-result" style="display:none;"></div>
+        </div>
+
+        <!-- Ratings -->
+        <div class="fd-card mt-2">
+            <div class="fd-card-header"><h3>⭐ Ratings & Reviews</h3></div>
+            <div class="fd-ratings-overview">
+                <div class="fd-rating-score">4.6 <span>⭐</span></div>
+                <div class="fd-rating-bars">
+                    <div class="fd-rating-bar"><span>5⭐</span><div class="fd-bar"><div class="fd-bar-fill" style="width:70%"></div></div><span>70%</span></div>
+                    <div class="fd-rating-bar"><span>4⭐</span><div class="fd-bar"><div class="fd-bar-fill" style="width:20%"></div></div><span>20%</span></div>
+                    <div class="fd-rating-bar"><span>3⭐</span><div class="fd-bar"><div class="fd-bar-fill" style="width:7%"></div></div><span>7%</span></div>
+                    <div class="fd-rating-bar"><span>2⭐</span><div class="fd-bar"><div class="fd-bar-fill" style="width:2%"></div></div><span>2%</span></div>
+                    <div class="fd-rating-bar"><span>1⭐</span><div class="fd-bar"><div class="fd-bar-fill" style="width:1%"></div></div><span>1%</span></div>
+                </div>
+            </div>
+            <div id="reviews-list">
+                <div class="fd-review-item"><div class="fd-review-top"><strong>Rahul Sharma</strong> <span>⭐⭐⭐⭐⭐</span></div><p>Fresh tomatoes! Very happy with quality.</p></div>
+                <div class="fd-review-item"><div class="fd-review-top"><strong>Priya Verma</strong> <span>⭐⭐⭐⭐</span></div><p>Good quality, delivered on time.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PROFILE SECTION ===== -->
+    <div class="fd-section" id="section-profile">
+        <div class="fd-grid-2">
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>👤 Farmer Profile</h3></div>
+                <div class="fd-profile-avatar-area">
+                    <div class="fd-profile-avatar"><i class="fas fa-user-circle"></i></div>
+                    <div><h4 id="profile-display-name">Farmer</h4><p class="text-muted">Farmer</p></div>
+                </div>
+                <div class="fd-form-group mt-1"><label>Full Name</label><input type="text" id="profile-name" class="fd-input" placeholder="Enter full name"></div>
+                <div class="fd-form-group"><label>Mobile Number</label><input type="text" id="profile-mobile" class="fd-input" placeholder="+91 XXXXXXXXXX"></div>
+                <div class="fd-form-group"><label>Email</label><input type="email" id="profile-email" class="fd-input" placeholder="email@example.com"></div>
+                <div class="fd-form-group"><label>Farm Location</label><input type="text" id="profile-location" class="fd-input" placeholder="City, State"></div>
+                <button class="fd-btn fd-btn-primary" onclick="saveProfile()"><i class="fas fa-save"></i> Save Profile</button>
+            </div>
+            <div class="fd-card">
+                <div class="fd-card-header"><h3>⚙️ Settings</h3></div>
+                <div class="fd-form-group"><label>Language</label>
+                    <select id="profile-lang" class="fd-input">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                        <option value="mr">मराठी (Marathi)</option>
+                    </select>
+                </div>
+                <div class="fd-form-group"><label>Bank Account Number</label><input type="text" id="profile-bank" class="fd-input" placeholder="Account Number"></div>
+                <div class="fd-form-group"><label>UPI ID</label><input type="text" id="profile-upi" class="fd-input" placeholder="yourname@upi"></div>
+                <div class="fd-form-group"><label>IFSC Code</label><input type="text" id="profile-ifsc" class="fd-input" placeholder="SBIN0001234"></div>
+                <button class="fd-btn fd-btn-primary" onclick="saveProfile()"><i class="fas fa-save"></i> Save Settings</button>
+                <div class="fd-card mt-2" style="background:#fff8e1; border:1px solid #ffe082;">
+                    <h4>🆘 Help & Support</h4>
+                    <p class="text-muted mt-1">📞 Helpline: 1800-XXX-XXXX</p>
+                    <p class="text-muted">📧 support@agrohub.in</p>
+                    <p class="text-muted">⏰ Mon-Sat: 9AM – 6PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- END fd-main -->
+
+<!-- ADD PRODUCT MODAL -->
+<div id="addProductModal" class="fd-modal">
+    <div class="fd-modal-content">
+        <button class="fd-modal-close" onclick="closeAddProductModal()">×</button>
+        <h3 id="modal-title">🌾 Add New Product</h3>
+        <form id="product-form">
+            <input type="hidden" id="product_id">
+            <div class="fd-form-group"><label>Product Name</label><input type="text" id="name" class="fd-input" required placeholder="e.g. Tomato"></div>
+            <div class="fd-grid-2-form">
+                <div class="fd-form-group"><label>Category</label>
+                    <select id="category" class="fd-input" required>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Pulses">Pulses</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Dairy">Dairy</option>
+                    </select>
+                </div>
+                <div class="fd-form-group"><label>Unit</label><input type="text" id="unit" class="fd-input" value="kg" required></div>
+            </div>
+            <div class="fd-grid-2-form">
+                <div class="fd-form-group">
+                    <label>Price (₹) <button type="button" class="fd-btn fd-btn-ai" onclick="suggestAIPrice()">✨ AI Suggest</button></label>
+                    <input type="number" id="price" class="fd-input" step="0.01" required>
+                    <small id="ai-price-msg" style="color:#2e7d32; display:none;"></small>
+                </div>
+                <div class="fd-form-group"><label>Initial Stock</label><input type="number" id="stock" class="fd-input" required></div>
+            </div>
+            <div class="fd-form-group"><label>Image URL (Optional)</label><input type="url" id="image_url" class="fd-input" placeholder="https://..."></div>
+            <div class="fd-form-group"><label>Description</label><textarea id="description" class="fd-input" rows="2" placeholder="Describe your product..."></textarea></div>
+            <button type="submit" class="fd-btn fd-btn-primary" style="width:100%;">💾 Save Product</button>
+        </form>
+    </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script src="../js/products.js"></script>
+<script src="../js/orders.js"></script>
+<script src="../js/farmer.js"></script>
+</body>
+</html>

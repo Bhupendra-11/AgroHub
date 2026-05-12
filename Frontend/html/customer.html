@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+    <title>Customer Dashboard - AgroHub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/customer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="customer-body">
+    <!-- ===== Splash Screen ===== -->
+    <div id="splash-screen">
+        <div class="splash-logo">🌱 Agro<span>Hub</span></div>
+        <div class="splash-loader"></div>
+    </div>
+
+<!-- SIDEBAR -->
+<div class="cd-sidebar" id="cd-sidebar">
+    <div class="cd-sidebar-logo">🌱 Agro<span>Hub</span></div>
+    <div class="cd-user-info">
+        <div class="cd-avatar"><i class="fas fa-user-circle"></i></div>
+        <div>
+            <div class="cd-user-name" id="sidebar-user-name">Customer</div>
+            <div class="cd-user-role">🛒 Verified Buyer</div>
+        </div>
+    </div>
+    <ul class="cd-menu">
+        <li><a href="#" class="cd-menu-link active" data-section="home" data-t="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="marketplace" data-t="marketplace"><i class="fas fa-store"></i> Marketplace</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="orders" data-t="orders"><i class="fas fa-box"></i> My Orders</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="wishlist" data-t="wishlist"><i class="fas fa-heart"></i> Wishlist</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="payments" data-t="payments"><i class="fas fa-wallet"></i> Payments</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="delivery" data-t="delivery"><i class="fas fa-truck"></i> Delivery</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="reviews" data-t="reviews"><i class="fas fa-star"></i> Reviews</a></li>
+        <li><a href="#" class="cd-menu-link" data-section="profile" data-t="profile"><i class="fas fa-user"></i> Profile</a></li>
+    </ul>
+    <div class="cd-sidebar-footer">
+        <a href="#" onclick="logout(); return false;" class="cd-logout-btn"><i class="fas fa-sign-out-alt"></i> <span data-t="logout">Logout</span></a>
+    </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="cd-overlay" id="cd-overlay"></div>
+
+<!-- MAIN -->
+<div class="cd-main" id="cd-main">
+
+    <!-- TOPBAR -->
+    <div class="cd-topbar">
+        <div class="cd-topbar-left">
+            <button class="cd-hamburger" id="cd-hamburger"><i class="fas fa-bars"></i></button>
+            <h1 class="cd-page-title" id="cd-page-title" data-t="dashboard">🏠 Dashboard</h1>
+        </div>
+        <div class="cd-topbar-right">
+            <!-- Search -->
+            <div class="cd-search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-product" data-t="search_placeholder" placeholder="Search fresh products..." onkeyup="debounce(loadMarketplaceProducts,500)()">
+                <button class="cd-voice-search" onclick="startVoiceSearch()" title="Voice Search"><i class="fas fa-microphone"></i></button>
+            </div>
+            <!-- Notifications -->
+            <div class="cd-notif-btn" onclick="toggleCdNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="cd-notif-badge" id="cd-notif-count">3</span>
+            </div>
+            <!-- Cart -->
+            <button class="cd-cart-btn" onclick="toggleCart()">
+                🛒 <span data-t="cart">Cart</span> (<span id="cart-count">0</span>)
+            </button>
+            <div class="cd-topbar-profile">
+                <i class="fas fa-user-circle"></i>
+                <span id="topbar-user-name" data-t="customer">Customer</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS PANEL -->
+    <div class="cd-notif-panel" id="cd-notif-panel" style="display:none;">
+        <div class="cd-notif-header"><strong>🔔 Notifications</strong><button onclick="toggleCdNotifications()" class="cd-notif-close">×</button></div>
+        <div class="cd-notif-item"><span class="cd-notif-dot success"></span> Order #1001 is out for delivery!</div>
+        <div class="cd-notif-item"><span class="cd-notif-dot warning"></span> New discount on vegetables – 20% off</div>
+        <div class="cd-notif-item"><span class="cd-notif-dot info"></span> Wishlist item back in stock</div>
+    </div>
+
+    <!-- ===== HOME SECTION ===== -->
+    <div class="cd-section active" id="section-home">
+        <div class="cd-stats-grid">
+            <div class="cd-stat-card green">
+                <div class="cd-stat-icon"><i class="fas fa-shopping-bag"></i></div>
+                <div class="cd-stat-info"><p>Total Orders</p><h2 id="cstat-orders">--</h2></div>
+            </div>
+            <div class="cd-stat-card red">
+                <div class="cd-stat-icon"><i class="fas fa-heart"></i></div>
+                <div class="cd-stat-info"><p>Wishlist Items</p><h2 id="cstat-wishlist">--</h2></div>
+            </div>
+            <div class="cd-stat-card orange">
+                <div class="cd-stat-icon"><i class="fas fa-truck"></i></div>
+                <div class="cd-stat-info"><p>Active Deliveries</p><h2 id="cstat-deliveries">--</h2></div>
+            </div>
+            <div class="cd-stat-card blue">
+                <div class="cd-stat-icon"><i class="fas fa-tag"></i></div>
+                <div class="cd-stat-info"><p>Saved Deals</p><h2 id="cstat-deals">8</h2></div>
+            </div>
+        </div>
+
+        <div class="cd-card">
+            <div class="cd-card-header"><h3 data-t="browse_categories">🛍️ Browse Categories</h3></div>
+            <div class="cd-categories">
+                <div class="cd-cat-item" onclick="goToMarketplace('All')" data-t="all"><span>🛒</span> All</div>
+                <div class="cd-cat-item" onclick="goToMarketplace('Vegetables')" data-t="vegetables"><span>🥦</span> Vegetables</div>
+                <div class="cd-cat-item" onclick="goToMarketplace('Fruits')" data-t="fruits"><span>🍎</span> Fruits</div>
+                <div class="cd-cat-item" onclick="goToMarketplace('Grains')" data-t="grains"><span>🌾</span> Grains</div>
+                <div class="cd-cat-item" onclick="goToMarketplace('Dairy')" data-t="dairy"><span>🥛</span> Dairy</div>
+                <div class="cd-cat-item" onclick="goToMarketplace('Spices')" data-t="spices"><span>🌶️</span> Spices</div>
+                <div class="cd-cat-item" onclick="goToMarketplace('Pulses')" data-t="pulses"><span>🥣</span> Pulses</div>
+            </div>
+        </div>
+
+        <!-- Featured Products -->
+        <div class="cd-card mt-2">
+            <div class="cd-card-header">
+                <h3>🔥 Featured Products</h3>
+                <button class="cd-btn cd-btn-outline" onclick="switchCdSection('marketplace', document.querySelector('[data-section=marketplace]'))">View All</button>
+            </div>
+            <div class="cd-products-grid" id="featured-grid">
+                <div class="cd-loading">Loading products...</div>
+            </div>
+        </div>
+
+        <!-- Best Deals -->
+        <div class="cd-card mt-2">
+            <div class="cd-card-header"><h3>💰 Best Deals & Offers</h3></div>
+            <div class="cd-deals-grid">
+                <div class="cd-deal-card green-deal"><div class="cd-deal-badge">20% OFF</div><span class="cd-deal-emoji">🥦</span><strong>Vegetables</strong><p>Fresh farm veggies</p></div>
+                <div class="cd-deal-card orange-deal"><div class="cd-deal-badge">15% OFF</div><span class="cd-deal-emoji">🍎</span><strong>Fruits</strong><p>Seasonal fruits</p></div>
+                <div class="cd-deal-card blue-deal"><div class="cd-deal-badge">FREE DELIVERY</div><span class="cd-deal-emoji">🥛</span><strong>Dairy</strong><p>Orders above ₹500</p></div>
+            </div>
+        </div>
+
+        <!-- Nearby Farmers -->
+        <div class="cd-card mt-2">
+            <div class="cd-card-header"><h3>📍 Nearby Farmers</h3></div>
+            <div class="cd-farmers-grid" id="nearby-farmers">
+                <div class="cd-farmer-chip"><i class="fas fa-user-circle"></i> Ramesh (2.3 km)</div>
+                <div class="cd-farmer-chip"><i class="fas fa-user-circle"></i> Sunita (4.1 km)</div>
+                <div class="cd-farmer-chip"><i class="fas fa-user-circle"></i> Mohan (5.8 km)</div>
+            </div>
+        </div>
+
+        <!-- AI Recommendations -->
+        <div class="cd-grid-2 mt-2">
+            <div class="cd-card">
+                <div class="cd-card-header"><h3>🤖 AI Recommendations</h3></div>
+                <div class="cd-notification"><i class="fas fa-fire" style="color:#e53935"></i> 🥭 Mangoes trending near you</div>
+                <div class="cd-notification"><i class="fas fa-arrow-up" style="color:#fb8c00"></i> 🧄 Garlic prices expected to rise – buy now</div>
+                <div class="cd-notification"><i class="fas fa-leaf" style="color:#2e7d32"></i> 🌱 Organic vegetables available nearby</div>
+                <button class="cd-btn cd-btn-primary mt-1" onclick="loadAIRecommendations()"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+            <div class="cd-card">
+                <div class="cd-card-header"><h3>🔔 Alerts</h3></div>
+                <div class="cd-notification"><i class="fas fa-truck" style="color:#1565c0"></i> 📦 Order #1001 arriving today!</div>
+                <div class="cd-notification"><i class="fas fa-tag" style="color:#fb8c00"></i> 💰 New discount on vegetables</div>
+                <div class="cd-notification"><i class="fas fa-heart" style="color:#e53935"></i> ❤️ Wishlist item back in stock</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MARKETPLACE SECTION ===== -->
+    <div class="cd-section" id="section-marketplace">
+        <!-- Category Slider -->
+        <div class="cd-card">
+            <div class="cd-cat-slider" id="cat-slider">
+                <div class="cd-cat-item active" onclick="setCategory('All', this)" data-t="all"><span>🛒</span> All</div>
+                <div class="cd-cat-item" onclick="setCategory('Vegetables', this)" data-t="vegetables"><span>🥦</span> Vegetables</div>
+                <div class="cd-cat-item" onclick="setCategory('Fruits', this)" data-t="fruits"><span>🍎</span> Fruits</div>
+                <div class="cd-cat-item" onclick="setCategory('Grains', this)" data-t="grains"><span>🌾</span> Grains</div>
+                <div class="cd-cat-item" onclick="setCategory('Dairy', this)" data-t="dairy"><span>🥛</span> Dairy</div>
+                <div class="cd-cat-item" onclick="setCategory('Spices', this)" data-t="spices"><span>🌶️</span> Spices</div>
+                <div class="cd-cat-item" onclick="setCategory('Pulses', this)" data-t="pulses"><span>🥣</span> Pulses</div>
+            </div>
+        </div>
+
+        <!-- Hidden filter select (for logic) -->
+        <select id="filter-category" class="d-none" onchange="loadMarketplaceProducts()">
+            <option value="All">All</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Grains">Grains</option>
+            <option value="Pulses">Pulses</option>
+            <option value="Spices">Spices</option>
+            <option value="Dairy">Dairy</option>
+        </select>
+
+        <div class="cd-card mt-2">
+            <div class="cd-card-header">
+                <h3 id="marketplace-title">🛒 All Products</h3>
+                <span class="text-muted" id="product-count-label"></span>
+            </div>
+            <div class="cd-products-grid" id="marketplace-grid">
+                <div class="cd-loading">Loading products...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ORDERS SECTION ===== -->
+    <div class="cd-section" id="section-orders">
+        <div class="cd-order-tabs">
+            <button class="cd-tab active" onclick="filterOrders('all', this)">📋 All Orders</button>
+            <button class="cd-tab" onclick="filterOrders('pending', this)">⏳ Pending</button>
+            <button class="cd-tab" onclick="filterOrders('delivered', this)">✅ Delivered</button>
+        </div>
+        <div class="cd-card">
+            <div class="cd-card-header"><h3>📦 My Orders</h3></div>
+            <div class="cd-table-wrap">
+                <table class="cd-table">
+                    <thead>
+                        <tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Delivery</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="customer-orders-table">
+                        <tr><td colspan="7" class="text-center" style="padding:24px;color:#999;">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== WISHLIST SECTION ===== -->
+    <div class="cd-section" id="section-wishlist">
+        <div class="cd-card">
+            <div class="cd-card-header"><h3>❤️ My Wishlist</h3></div>
+            <div class="cd-products-grid" id="wishlist-grid">
+                <div class="cd-loading">No wishlist items yet.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAYMENTS SECTION ===== -->
+    <div class="cd-section" id="section-payments">
+        <div class="cd-grid-2">
+            <div class="cd-card">
+                <div class="cd-card-header"><h3>💳 Saved Payment Methods</h3></div>
+                <div class="cd-pay-method active-method"><i class="fas fa-mobile-alt"></i> UPI — user@upi <span class="cd-badge success">Active</span></div>
+                <div class="cd-pay-method"><i class="fas fa-credit-card"></i> Card ending 4589</div>
+                <div class="cd-pay-method"><i class="fas fa-money-bill-wave"></i> Cash on Delivery</div>
+                <button class="cd-btn cd-btn-primary mt-1" onclick="showToast('Add payment method (demo)', 'info')"><i class="fas fa-plus"></i> Add Method</button>
+            </div>
+            <div class="cd-card">
+                <div class="cd-card-header"><h3>📋 Payment History</h3></div>
+                <div id="payment-history">
+                    <div class="cd-pay-row"><div><strong>Order #1001</strong><br><small>07 May 2026</small></div><span class="cd-pay-amt success">₹850</span></div>
+                    <div class="cd-pay-row"><div><strong>Order #1002</strong><br><small>05 May 2026</small></div><span class="cd-pay-amt success">₹420</span></div>
+                    <div class="cd-pay-row"><div><strong>Order #1003</strong><br><small>01 May 2026</small></div><span class="cd-pay-amt pending">Pending</span></div>
+                </div>
+                <button class="cd-btn cd-btn-outline mt-1" onclick="downloadInvoice()"><i class="fas fa-download"></i> Download Invoice</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DELIVERY SECTION ===== -->
+    <div class="cd-section" id="section-delivery">
+        <div class="cd-card">
+            <div class="cd-card-header"><h3>🚚 Real-Time Delivery Tracking</h3></div>
+            <div id="delivery-list">
+                <div class="cd-delivery-item">
+                    <div class="cd-delivery-top">
+                        <strong>Order #1001</strong>
+                        <span class="cd-badge warning">In Transit</span>
+                    </div>
+                    <p class="text-muted">Tomato, Potato — ₹850 — Est. delivery: <strong>Today 4:00 PM</strong></p>
+                    <div class="cd-tracker">
+                        <div class="cd-tracker-step done"><i class="fas fa-check-circle"></i><span>Placed</span></div>
+                        <div class="cd-tracker-line done"></div>
+                        <div class="cd-tracker-step done"><i class="fas fa-check-circle"></i><span>Accepted</span></div>
+                        <div class="cd-tracker-line done"></div>
+                        <div class="cd-tracker-step active"><i class="fas fa-truck"></i><span>In Transit</span></div>
+                        <div class="cd-tracker-line"></div>
+                        <div class="cd-tracker-step"><i class="fas fa-home"></i><span>Delivered</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cd-card mt-2">
+            <div class="cd-card-header"><h3>📜 Delivery History</h3></div>
+            <div id="delivery-history">
+                <div class="cd-delivery-item">
+                    <div class="cd-delivery-top"><strong>Order #1002</strong><span class="cd-badge success">Delivered</span></div>
+                    <p class="text-muted">Milk, Onion — ₹420 — Delivered: 05 May 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== REVIEWS SECTION ===== -->
+    <div class="cd-section" id="section-reviews">
+        <div class="cd-card">
+            <div class="cd-card-header"><h3>⭐ Rate & Review Products</h3></div>
+            <div id="review-products-list">
+                <div class="cd-review-item">
+                    <div class="cd-review-product"><span class="cd-review-emoji">🍅</span><div><strong>Fresh Tomato</strong><p class="text-muted">Ordered: 07 May 2026</p></div></div>
+                    <div class="cd-star-selector" data-product="1">
+                        <span class="cd-star" onclick="setRating(1,1)">★</span>
+                        <span class="cd-star" onclick="setRating(1,2)">★</span>
+                        <span class="cd-star" onclick="setRating(1,3)">★</span>
+                        <span class="cd-star" onclick="setRating(1,4)">★</span>
+                        <span class="cd-star" onclick="setRating(1,5)">★</span>
+                    </div>
+                    <textarea class="cd-input" placeholder="Write your review..." rows="2" id="review-text-1"></textarea>
+                    <button class="cd-btn cd-btn-primary" onclick="submitReview(1)">Submit Review</button>
+                </div>
+            </div>
+        </div>
+        <div class="cd-card mt-2">
+            <div class="cd-card-header"><h3>📝 Farmer Ratings</h3></div>
+            <div id="farmer-ratings">
+                <div class="cd-farmer-rating"><div class="cd-farmer-rating-info"><i class="fas fa-user-circle"></i><div><strong>Ramesh Kumar</strong><p class="text-muted">Vegetables Seller</p></div></div><div class="cd-stars-display">⭐⭐⭐⭐⭐ <span>(4.8)</span></div></div>
+                <div class="cd-farmer-rating"><div class="cd-farmer-rating-info"><i class="fas fa-user-circle"></i><div><strong>Sunita Devi</strong><p class="text-muted">Fruits Seller</p></div></div><div class="cd-stars-display">⭐⭐⭐⭐ <span>(4.2)</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PROFILE SECTION ===== -->
+    <div class="cd-section" id="section-profile">
+        <div class="cd-grid-2">
+            <div class="cd-card">
+                <div class="cd-card-header"><h3>👤 My Profile</h3></div>
+                <div class="cd-profile-header">
+                    <div class="cd-profile-avatar"><i class="fas fa-user-circle"></i></div>
+                    <div><h4 id="profile-display-name">Customer</h4><p class="text-muted">🛒 AgroHub Member</p></div>
+                </div>
+                <div class="cd-form-group mt-1"><label>Full Name</label><input type="text" id="profile-name" class="cd-input" placeholder="Your full name"></div>
+                <div class="cd-form-group"><label>Mobile Number</label><input type="text" id="profile-mobile" class="cd-input" placeholder="+91 XXXXXXXXXX"></div>
+                <div class="cd-form-group"><label>Email</label><input type="email" id="profile-email" class="cd-input" placeholder="email@example.com"></div>
+                <div class="cd-form-group"><label>Saved Address</label><textarea id="profile-address" class="cd-input" rows="2" placeholder="City, State, PIN"></textarea></div>
+                <button class="cd-btn cd-btn-primary" onclick="saveCustomerProfile()"><i class="fas fa-save"></i> Save Profile</button>
+            </div>
+            <div class="cd-card">
+                <div class="cd-card-header"><h3>⚙️ Settings</h3></div>
+                <div class="cd-form-group"><label>Preferred Language</label>
+                    <select id="profile-lang" class="cd-input">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                        <option value="mr">मराठी (Marathi)</option>
+                    </select>
+                </div>
+                <div class="cd-form-group"><label>Preferred Payment</label>
+                    <select id="profile-payment" class="cd-input">
+                        <option value="upi">UPI</option>
+                        <option value="card">Card</option>
+                        <option value="cod">Cash on Delivery</option>
+                    </select>
+                </div>
+                <button class="cd-btn cd-btn-primary" onclick="saveCustomerProfile()"><i class="fas fa-save"></i> Save Settings</button>
+                <div class="cd-support-box mt-2">
+                    <h4>🆘 Help & Support</h4>
+                    <p class="text-muted">📞 1800-XXX-XXXX</p>
+                    <p class="text-muted">📧 support@agrohub.in</p>
+                    <p class="text-muted">⏰ Mon–Sat: 9AM–6PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- end cd-main -->
+
+<!-- CART OVERLAY & PANEL -->
+<div class="cart-overlay" onclick="toggleCart()"></div>
+<div class="cart-panel">
+    <div class="cd-cart-header">
+        <h3>🛒 Your Cart</h3>
+        <span onclick="toggleCart()" class="cd-cart-close">×</span>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-footer">
+        <div class="cd-cart-total-row">
+            <span>Total:</span>
+            <strong id="cart-total">₹0.00</strong>
+        </div>
+        <button class="cd-btn cd-btn-primary" style="width:100%;" onclick="openCheckoutModal()">🛍️ Checkout</button>
+    </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeCheckoutModal()">×</span>
+        <h3 class="mb-1">🛍️ Checkout</h3>
+        <form id="checkout-form">
+            <div class="cd-form-group"><label for="delivery_address">Delivery Address</label><textarea id="delivery_address" class="cd-input" rows="3" required placeholder="Enter full delivery address..."></textarea></div>
+            <div class="cd-form-group"><label for="payment_method">Payment Method</label>
+                <select id="payment_method" class="cd-input" required>
+                    <option value="upi">UPI (Direct to Farmer)</option>
+                    <option value="card">Credit/Debit Card</option>
+                    <option value="cod">Cash on Delivery</option>
+                </select>
+            </div>
+            <button type="submit" class="cd-btn cd-btn-primary" style="width:100%;">✅ Place Order</button>
+        </form>
+    </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script src="../js/products.js"></script>
+<script src="../js/orders.js"></script>
+<script src="../js/customer.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+<title>Login / लॉगिन - AgroHub</title>
+<link rel="stylesheet" href="../css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+  <!-- ===== Splash Screen ===== -->
+  <div id="splash-screen">
+    <div class="splash-logo">🌱 Agro<span>Hub</span></div>
+    <div class="splash-loader"></div>
+  </div>
+<div class="page-wrap">
+  <div class="card">
+    <div class="brand">
+      <div class="logo">🌱</div>
+      <h1>Agro<span>Hub</span></h1>
+      <p id="brand-sub" data-t="brand_sub">Fresh from farm to your door 🚀</p>
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label id="lbl-email" data-t="email">✉️ Email</label>
+        <input type="email" id="email" required placeholder="you@example.com" data-t="email">
+      </div>
+      <div class="form-group">
+        <label id="lbl-pass" data-t="password">🔐 Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="password" required placeholder="••••••" data-t="password">
+          <button type="button" class="show-pass" onclick="togglePass()">👁️</button>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <span id="btn-text" data-t="login_btn">🔑 Login</span>
+      </button>
+    </form>
+
+    <div class="footer-link">
+      <span id="reg-prompt" data-t="new_user">New user?</span>
+      <a href="register.html" id="reg-link" data-t="signup"> Register here</a>
+    </div>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script src="../js/login.js"></script>
+</body>
+</html>

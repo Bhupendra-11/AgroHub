@@ -1,0 +1,17 @@
+flask==3.0.3
+flask-cors==4.0.1
+flask-jwt-extended==4.6.0
+flask-sqlalchemy==3.1.1
+Werkzeug==3.0.3
+python-dotenv==1.0.1
+sqlalchemy
+psycopg2-binary
+requests
+flask-mail
+cloudinary
+flask-marshmallow
+marshmallow-sqlalchemy
+reportlab
+flask-socketio
+gunicorn
+waitress

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/agrohub_logo.png">
+    <title>Profile - AgroHub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">🌱 Agro<span>Hub</span></a>
+        <div class="nav-links" id="nav-links">
+            <!-- Populated by main.js -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar" id="avatar-initials">U</div>
+                <h2 id="profile-name-header">User Name</h2>
+                <span class="role-badge" id="profile-role-badge">Role</span>
+            </div>
+
+            <!-- View Mode -->
+            <div id="view-mode" class="view-mode">
+                <div class="profile-info">
+                    <div class="info-row">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="view-email">-</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Phone</div>
+                        <div class="info-value" id="view-phone">Not provided</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Address</div>
+                        <div class="info-value" id="view-address">Not provided</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Joined</div>
+                        <div class="info-value" id="view-joined">-</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="toggleEditMode()" style="width: 100%;">Edit Profile</button>
+            </div>
+
+            <!-- Edit Mode -->
+            <div id="edit-form" class="edit-form">
+                <form id="profile-update-form">
+                    <div class="form-group">
+                        <label for="edit-name">Full Name</label>
+                        <input type="text" id="edit-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email Address (Read-only)</label>
+                        <input type="email" id="edit-email" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone Number</label>
+                        <input type="tel" id="edit-phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-address">Delivery/Farm Address</label>
+                        <textarea id="edit-address" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="grid grid-2">
+                        <button type="button" class="btn btn-accent" onclick="toggleEditMode()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>
