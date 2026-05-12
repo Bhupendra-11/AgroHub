@@ -244,14 +244,21 @@ h1 {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
   }
   .nav-links.active {
     left: 0;
   }
-  .nav-links a {
+  .nav-links a, .nav-links .lang-switcher {
     width: 100%;
     padding: 1.2rem 2.5rem;
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    margin: 0 !important;
+    display: flex !important;
+  }
+  .nav-links .lang-switcher {
+    order: -1; /* Language switcher at top of mobile menu */
+    justify-content: flex-start;
   }
   .hamburger {
     display: flex;
