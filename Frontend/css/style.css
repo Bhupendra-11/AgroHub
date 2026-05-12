@@ -173,9 +173,10 @@ h1 {
 /* ==========================================================================
    5. Navbar
    ========================================================================== */
-.navbar {
-  background-color: var(--primary-color);
-  padding: 1rem 5%;
+  background: rgba(26, 61, 43, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.8rem 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -185,13 +186,14 @@ h1 {
   width: 100%;
   z-index: 1010;
   box-sizing: border-box;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .nav-left {
@@ -227,8 +229,37 @@ h1 {
     gap: 2rem;
   }
   .nav-links a {
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.85);
     font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 0;
+  }
+  .nav-links a:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+  .nav-links .btn-accent {
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(245, 166, 35, 0.2);
+  }
+  .nav-links .btn-accent::after {
+    display: none;
   }
   .hamburger {
     display: none !important;
