@@ -207,29 +207,37 @@ h1 {
   color: var(--accent-color);
 }
 
-/* Desktop Nav */
-@media (min-width: 769px) {
+/* Desktop Nav (> 1024px) */
+@media (min-width: 1025px) {
   .nav-links {
-    position: static;
-    flex-direction: row;
-    height: auto;
-    width: auto;
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
-    gap: 2rem;
+    display: flex !important;
+    position: static !important;
+    flex-direction: row !important;
+    height: auto !important;
+    width: auto !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    gap: 2rem !important;
+    left: auto !important;
   }
   .nav-links a {
-    width: auto;
-    padding: 0;
+    width: auto !important;
+    padding: 0 !important;
+    border: none !important;
+    color: var(--text-light) !important;
+  }
+  .nav-links .lang-switcher {
+    border: none !important;
+    padding: 0 !important;
   }
   .hamburger {
-    display: none;
+    display: none !important;
   }
 }
 
-/* Mobile Nav Drawer */
-@media (max-width: 768px) {
+/* Mobile & Tablet Nav (< 1024px) */
+@media (max-width: 1024px) {
   .nav-links {
     position: fixed;
     top: 70px;
@@ -245,6 +253,10 @@ h1 {
     z-index: 1000;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 1.5rem;
   }
   .nav-links.active {
     left: 0;
@@ -255,13 +267,14 @@ h1 {
     border-bottom: 1px solid rgba(255,255,255,0.05);
     margin: 0 !important;
     display: flex !important;
+    color: white !important;
   }
   .nav-links .lang-switcher {
-    order: -1; /* Language switcher at top of mobile menu */
+    order: -1;
     justify-content: flex-start;
   }
   .hamburger {
-    display: flex;
+    display: flex !important;
   }
 }
 
