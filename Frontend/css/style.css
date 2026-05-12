@@ -188,6 +188,12 @@ h1 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
 .nav-left {
   display: flex;
   align-items: center;
@@ -210,26 +216,19 @@ h1 {
 /* Desktop Nav (> 1024px) */
 @media (min-width: 1025px) {
   .nav-links {
-    display: flex !important;
-    position: static !important;
-    flex-direction: row !important;
-    height: auto !important;
-    width: auto !important;
-    background: transparent !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    gap: 2rem !important;
-    left: auto !important;
+    position: static;
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: auto;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    gap: 2rem;
   }
   .nav-links a {
-    width: auto !important;
-    padding: 0 !important;
-    border: none !important;
-    color: var(--text-light) !important;
-  }
-  .nav-links .lang-switcher {
-    border: none !important;
-    padding: 0 !important;
+    color: var(--text-light);
+    font-weight: 500;
   }
   .hamburger {
     display: none !important;
@@ -239,27 +238,26 @@ h1 {
 /* Mobile & Tablet Nav (< 1024px) */
 @media (max-width: 1024px) {
   .nav-links {
+    display: none; /* Hide in the main flow */
     position: fixed;
-    top: 70px;
+    top: 0;
     left: -280px;
     width: 280px;
-    height: calc(100vh - 70px);
+    height: 100vh;
     background-color: var(--primary-color);
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-top: 1.5rem;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 5rem;
+    transition: left 0.3s ease;
     z-index: 1000;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-top: 1.5rem;
   }
   .nav-links.active {
+    display: flex; /* Show when active */
     left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto;
   }
   .nav-links a, .nav-links .lang-switcher {
     width: 100%;
