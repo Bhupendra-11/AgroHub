@@ -287,7 +287,7 @@ function isLoggedIn() {
 
 function logout() {
     localStorage.clear();
-    window.location.href = 'login.html';
+    window.location.href = '/html/login.html';
 }
 
 function checkAuthAndRedirect() {
@@ -296,22 +296,22 @@ function checkAuthAndRedirect() {
     
     if (!user) {
         if (currentPath.includes('farmer.html') || currentPath.includes('customer.html') || currentPath.includes('dashboard.html') || currentPath.includes('profile.html')) {
-            window.location.href = 'login.html';
+            window.location.href = '/html/login.html';
         }
         return;
     }
     
     // Redirect logged-in users away from auth pages
     if (currentPath.includes('login.html') || currentPath.includes('register.html')) {
-        window.location.href = user.role === 'farmer' ? 'farmer.html' : 'customer.html';
+        window.location.href = user.role === 'farmer' ? '/html/farmer.html' : '/html/customer.html';
     }
 
     // Role-based protection
     if (currentPath.includes('farmer.html') && user.role !== 'farmer') {
-        window.location.href = 'customer.html';
+        window.location.href = '/html/customer.html';
     }
     if (currentPath.includes('customer.html') && user.role !== 'customer') {
-        window.location.href = 'farmer.html';
+        window.location.href = '/html/farmer.html';
     }
 }
 
