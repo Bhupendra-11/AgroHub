@@ -209,14 +209,15 @@ def create_app():
         print("Seeding complete.")
 
     # ── Serve Frontend ───────────────────────────────
+    from flask import send_from_directory
+
     @app.route('/')
     def index():
-        return app.send_static_file('html/index.html')
+        return send_from_directory(app.static_folder, 'html/index.html')
 
     @app.route('/<path:path>')
     def static_proxy(path):
-        # Serve any static file from the Frontend directory
-        return app.send_static_file(path)
+        return send_from_directory(app.static_folder, path)
 
     return app
 
