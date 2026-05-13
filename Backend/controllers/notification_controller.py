@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from app import db
+from extensions import db
 from models.notification_model import Notification
 
 def get_my_notifications():

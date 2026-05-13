@@ -6,7 +6,8 @@ import sys
 sys.path.append(os.getcwd())
 
 try:
-    from app import create_app, db
+    from app import create_app
+    from extensions import db
     from sqlalchemy import inspect
     
     app = create_app()

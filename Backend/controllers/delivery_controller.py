@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from app import db
+from extensions import db
 from models.delivery_model import Delivery
 from models.order_model import Order
 import random

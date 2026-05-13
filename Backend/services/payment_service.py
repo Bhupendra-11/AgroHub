@@ -3,7 +3,7 @@ Payment Service — Stub implementation.
 Replace with real Razorpay/Stripe SDK calls by adding API keys to .env.
 """
 import uuid
-from app import db
+from extensions import db
 from models.order_model import Payment
 
 

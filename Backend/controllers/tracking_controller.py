@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask_jwt_extended import get_jwt_identity
-from app import db
+from extensions import db
 from models.order_model import Order
 from models.delivery_model import Delivery
 from services.map_service import simulate_movement

@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from app import db
+from extensions import db
 from models.user_model import User
 from models.order_model import Order
 from models.product_model import Product

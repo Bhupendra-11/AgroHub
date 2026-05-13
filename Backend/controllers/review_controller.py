@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from app import db
+from extensions import db
 from models.review_model import Review
 from models.product_model import Product
 from controllers.notification_controller import create_notification

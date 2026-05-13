@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from app import db
+from extensions import db
 
 # In a real app, we would have a Message model. 
 # For now, we'll simulate a support response.

@@ -4,7 +4,7 @@ from flask_jwt_extended import (
     create_access_token, create_refresh_token, 
     get_jwt_identity, jwt_required, get_jwt
 )
-from app import db, mail
+from extensions import db, mail
 from flask_mail import Message
 from models.user_model import User
 from utils.helpers import validate_email, validate_required_fields
